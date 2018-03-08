@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 
-i import java.io.IOException;
+import java.io.IOException;
 
 /**
  * Created by huang on 2018/3/7.
@@ -24,6 +24,11 @@ public class WebConfiguration
     public FilterRegistrationBean testFilterRegistration(){
         FilterRegistrationBean filterRegistrationBean =  new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new MyFilter());
+        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.addInitParameter("paramName", "paramValue");
+        filterRegistrationBean.setName("MyFilter");
+        filterRegistrationBean.setOrder(1);
+        return filterRegistrationBean;
     }
     public class MyFilter implements Filter
     {

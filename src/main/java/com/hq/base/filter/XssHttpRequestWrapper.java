@@ -16,8 +16,37 @@ public class XssHttpRequestWrapper  extends HttpServletRequestWrapper
     {
         super(request);
     }
-    public void setCharacterEncoding(String encode) throws UnsupportedEncodingException
+    public void setCharacterEncoding(String enc) throws UnsupportedEncodingException
     {
+        super.setCharacterEncoding(enc);
 
+        refiltParams();
+    }
+    void refiltParams(){
+        parameters = null;
+    }
+    public String getParameter(String string){
+        String [] strList = getParameterValues(string);
+        if(strList !=null && strList.length>1){
+            return strList[0];
+        }else{
+            return null;
+        }
+    }
+    public String [] getParameterValues(String string){
+        if(parameters == null){
+            paramXssFilter();
+        }
+        return (String [] )parameters.get(string);
+    }
+    public Map getParameterMap(){
+        if(parameters == null){
+            paramXssFilter();
+        }
+        return parameters;
+    }
+    private void paramXssFilter(){
+        parameters = getRequest().getParameterMap();
+        XssSecurityManager.filtRequestParams(parameters, this.getServletPath());
     }
 }
