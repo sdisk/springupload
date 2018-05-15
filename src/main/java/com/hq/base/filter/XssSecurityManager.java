@@ -239,7 +239,7 @@ public class XssSecurityManager
     }
 
     public static void main(String args[]) throws Exception{
-        Map datas=new HashMap();
+        Map datas=new HashMap(16);
         String paramName="test";
         datas.put(paramName,new String[]{ "Javascript:<script>alert('yes');</script>"});
         filtRequestParams(datas,"/test/sample.do");

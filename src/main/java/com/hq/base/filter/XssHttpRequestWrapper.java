@@ -16,6 +16,7 @@ public class XssHttpRequestWrapper  extends HttpServletRequestWrapper
     {
         super(request);
     }
+    @Override
     public void setCharacterEncoding(String enc) throws UnsupportedEncodingException
     {
         super.setCharacterEncoding(enc);
@@ -25,6 +26,7 @@ public class XssHttpRequestWrapper  extends HttpServletRequestWrapper
     void refiltParams(){
         parameters = null;
     }
+    @Override
     public String getParameter(String string){
         String [] strList = getParameterValues(string);
         if(strList !=null && strList.length>1){
@@ -33,12 +35,14 @@ public class XssHttpRequestWrapper  extends HttpServletRequestWrapper
             return null;
         }
     }
+    @Override
     public String [] getParameterValues(String string){
         if(parameters == null){
             paramXssFilter();
         }
         return (String [] )parameters.get(string);
     }
+    @Override
     public Map getParameterMap(){
         if(parameters == null){
             paramXssFilter();
